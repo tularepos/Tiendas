@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo de Ventas de Computación</title>
+    <meta name="description" content="Catálogo online de productos de computación y estado de reparaciones">
+    
+    <!-- Preconnect to external domains -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://unpkg.com">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+
+    <!-- Preload fonts -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" as="style">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css?v=5">
+    
+    <!-- Phosphor Icons: Defer for non-critical icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web" defer></script>
+    
+    <!-- JSZip: Loaded only when needed, but defer for now -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js" defer></script>
+
+    <!-- Metrics Loader (Dynamic) -->
+    <script>
+        window.initMetrics = function(gtmId, gaId) {
+            // Google Tag Manager
+            if (gtmId && !window.gtmInitialized) {
+                (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+                new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+                j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+                'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+                })(window,document,'script','dataLayer',gtmId);
+                window.gtmInitialized = true;
+                console.log('GTM Initialized:', gtmId);
+            }
+            // Google Analytics 4
+            if (gaId && !window.gaInitialized) {
+                const script = document.createElement('script');
+                script.async = true;
+                script.src = 'https://www.googletagmanager.com/gtag/js?id=' + gaId;
+                document.head.appendChild(script);
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', gaId);
+                window.gaInitialized = true;
+                console.log('GA4 Initialized:', gaId);
+            }
+        };
+        // Compatibility shim
+        window.initGA = function(id) { window.initMetrics(null, id); };
+    </script>
+</head>
+<body>
+    <!-- Google Tag Manager (noscript) - Updated Dynamically if possible, but standard GTM requires hardcoded for full support -->
+    <div id="gtm-noscript-container"></div>
+    <div class="app-container">
+        <!-- Navigation -->
+        <nav class="navbar glass">
+            <a href="#/" class="nav-brand">
+                <i class="ph ph-cpu"></i> Nexus
+            </a>
+            
+            <div class="nav-links" id="public-nav">
+                <a href="#/" class="nav-link" data-route="/">Catálogo</a>
+                <a href="#/ofertas" class="nav-link" data-route="/ofertas">Ofertas</a>
+                <a href="#/servicios" class="nav-link" data-route="/servicios">Servicios</a>
+            </div>
+            
+            <div class="nav-links d-none" id="admin-nav">
+                <a href="#/admin" class="nav-link" data-route="/admin">Dashboard</a>
+                <a href="#/admin/productos" class="nav-link" data-route="/admin/productos">Productos</a>
+                <a href="#/admin/servicios" class="nav-link" data-route="/admin/servicios">Servicios</a>
+                <a href="#/admin/clientes" class="nav-link" data-route="/admin/clientes">Clientes</a>
+                <a href="#/admin/local" class="nav-link" data-route="/admin/local" style="color: var(--accent-cyan);"><i class="ph ph-hard-drives"></i> Local Node</a>
+                <a href="#/admin/config" class="nav-link" data-route="/admin/config">Config</a>
+                <a href="#" id="btn-logout"><i class="ph ph-sign-out"></i> Salir</a>
+            </div>
+
+            <!-- Cart Button (header) -->
+            <button class="nav-cart" id="nav-cart" aria-label="Ver carrito" onclick="Cart.toggle()">
+                <i class="ph ph-shopping-cart-simple"></i>
+                <span class="cart-badge" id="cart-badge" style="display:none;">0</span>
+            </button>
+        </nav>
+
+        <!-- Promotional Carousel Banner -->
+        <div id="promotional-carousel" class="promotional-carousel d-none">
+            <div class="carousel-track" id="carousel-track"></div>
+            <button class="carousel-btn carousel-btn--left" id="carousel-btn-left">
+                <i class="ph ph-caret-left"></i>
+            </button>
+            <button class="carousel-btn carousel-btn--right" id="carousel-btn-right">
+                <i class="ph ph-caret-right"></i>
+            </button>
+            <div class="carousel-nav" id="carousel-nav"></div>
+        </div>
+
+        <!-- Main Content Area where pages are rendered -->
+        <main class="main-content" id="app"></main>
+        
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4 id="footer-company-name-title">Mi Empresa</h4>
+                    <p id="footer-address"><i class="ph ph-map-pin"></i> <span></span></p>
+                    <p id="footer-phone"><i class="ph ph-phone"></i> <span></span></p>
+                    <p id="footer-email"><i class="ph ph-envelope"></i> <span></span></p>
+                </div>
+                <div class="footer-section">
+                    <h4>Horarios de Atención</h4>
+                    <p id="footer-hours"><i class="ph ph-clock"></i> <span></span></p>
+                </div>
+                <div class="footer-section">
+                    <h4>Redes Sociales</h4>
+                    <div class="social-links">
+                        <a href="#" id="footer-ig" target="_blank"><i class="ph ph-instagram-logo"></i> Instagram</a>
+                        <a href="#" id="footer-fb" target="_blank"><i class="ph ph-facebook-logo"></i> Facebook</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; <span id="footer-year">2024</span> <span id="footer-company-name-bottom"></span>. Todos los derechos reservados.</p>
+            </div>
+        </footer>
+
+        <!-- Floating WhatsApp Button -->
+        <a href="#" class="floating-wa" id="floating-wa" aria-label="Contactar por WhatsApp">
+            <i class="ph ph-whatsapp-logo"></i>
+        </a>
+    </div>
+
+    <!-- Cart Drawer -->
+    <div class="cart-overlay" id="cart-overlay">
+        <div class="cart-drawer">
+            <div class="cart-header">
+                <h3><i class="ph ph-shopping-cart-simple"></i> Tu Carrito</h3>
+                <button class="cart-close" onclick="Cart.close()" aria-label="Cerrar"><i class="ph ph-x"></i></button>
+            </div>
+
+            <div id="cart-main">
+                <div class="cart-items" id="cart-items"></div>
+                <div class="cart-footer">
+                    <div class="cart-total-row"><span>Total:</span><strong id="cart-total">$0</strong></div>
+                    <button class="btn btn-primary w-100" id="cart-view-checkout" onclick="Cart.showCheckout()">Iniciar Pedido</button>
+                </div>
+            </div>
+
+            <div id="cart-checkout" style="display:none;">
+                <div class="checkout-fields">
+                    <label>Nombre *<input id="co-name" type="text" autocomplete="name" placeholder="Tu nombre"></label>
+                    <label>Teléfono *<input id="co-phone" type="tel" autocomplete="tel" placeholder="Ej: 11 2345 6789"></label>
+                    <label>Entrega
+                        <select id="co-delivery" onchange="document.getElementById('co-address-wrap').style.display=this.value==='envio'?'':'none'">
+                            <option value="retiro">Retiro en local</option>
+                            <option value="envio">Envío a domicilio</option>
+                        </select>
+                    </label>
+                    <div id="co-address-wrap" style="display:none;">
+                        <label>Dirección *<input id="co-address" type="text" placeholder="Calle, número, ciudad"></label>
+                    </div>
+                    <label>Notas<textarea id="co-notes" rows="2" placeholder="Detalles opcionales..."></textarea></label>
+                </div>
+                <div class="cart-footer">
+                    <div class="cart-total-row"><span>Total:</span><strong id="co-total">$0</strong></div>
+                    <button class="btn btn-primary w-100" id="co-submit" onclick="Cart.submit()">Enviar pedido</button>
+                    <p id="co-remote-hint" style="display:none;font-size:.8rem;text-align:center;margin:.5rem 0 0;color:var(--text-muted);">Se registra online y se abre WhatsApp para confirmarlo.</p>
+                    <button class="btn btn-secondary w-100" style="margin-top:.5rem;" onclick="Cart.showMain()">Volver al carrito</button>
+                </div>
+            </div>
+
+            <div id="cart-success" style="display:none;" class="cart-success">
+                <i class="ph ph-check-circle"></i>
+                <h4>¡Pedido enviado!</h4>
+                <p id="cart-success-msg"></p>
+                <button class="btn btn-primary" onclick="Cart.close()">Seguir viendo</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Base Overlay -->
+    <div class="modal-overlay" id="modal-base">
+        <div class="modal-content glass" id="modal-content">
+            <!-- Modal Content Injected Here -->
+        </div>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="toast-notification">
+        <i id="toast-icon" class="ph"></i>
+        <span id="toast-message"></span>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="vendor/jspdf.umd.min.js" defer></script>
+    <script src="order-pdf.js?v=1" defer></script>
+    <script src="app.js?v=6" defer></script>
+</body>
+</html>
