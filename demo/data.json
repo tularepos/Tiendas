@@ -1,0 +1,86 @@
+{
+  "products": [
+    {
+      "id": "p1",
+      "code": "YERB001",
+      "name": "Yerba mate 1kg",
+      "price": 4500,
+      "category": "Almacén",
+      "image": "",
+      "description": "Yerba mate premium",
+      "source": "web",
+      "oferta": 0,
+      "nuevo": 0
+    },
+    {
+      "id": "p2",
+      "code": "CAFE001",
+      "name": "Café molido 500g",
+      "price": 6800,
+      "category": "Almacén",
+      "image": "",
+      "description": "Café molido",
+      "source": "web",
+      "oferta": 1,
+      "ofertaPrice": 7500,
+      "nuevo": 0
+    },
+    {
+      "id": "p3",
+      "code": "AZUC001",
+      "name": "Azúcar 1kg",
+      "price": 1900,
+      "category": "Almacén",
+      "image": "",
+      "description": "Azúcar",
+      "source": "web",
+      "oferta": 0,
+      "nuevo": 1
+    },
+    {
+      "id": "p4",
+      "code": "GASE001",
+      "name": "Gaseosa cola 2L",
+      "price": 3200,
+      "category": "Bebidas",
+      "image": "",
+      "description": "Gaseosa",
+      "source": "web",
+      "oferta": 0,
+      "nuevo": 0
+    },
+    {
+      "id": "p5",
+      "code": "AGUA001",
+      "name": "Agua mineral 2L",
+      "price": 1800,
+      "category": "Bebidas",
+      "image": "",
+      "description": "Agua",
+      "source": "web",
+      "oferta": 0,
+      "nuevo": 0
+    }
+  ],
+  "categories": [
+    {
+      "id": "c1",
+      "name": "Almacén"
+    },
+    {
+      "id": "c2",
+      "name": "Bebidas"
+    }
+  ],
+  "services": [],
+  "clients": [],
+  "repairs": [],
+  "config": {
+    "companyName": "Tienda Demo",
+    "address": "Av. Demo 123",
+    "phone": "11 1234-5678",
+    "whatsapp": "5491112345678",
+    "currency": "ARS",
+    "banners": []
+  }
+}
