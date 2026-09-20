@@ -1,0 +1,32 @@
+{
+  "products": [
+    {
+      "id": "p1",
+      "code": "TEST001",
+      "name": "Producto Prueba Tula 1",
+      "price": 999,
+      "category": "Prueba",
+      "image": "",
+      "description": "Prueba",
+      "source": "web",
+      "oferta": 0,
+      "nuevo": 1
+    }
+  ],
+  "categories": [
+    {
+      "id": "c1",
+      "name": "Prueba"
+    }
+  ],
+  "services": [],
+  "clients": [],
+  "repairs": [],
+  "config": {
+    "companyName": "Prueba Tula 1",
+    "address": "Test",
+    "phone": "",
+    "currency": "ARS",
+    "banners": []
+  }
+}
